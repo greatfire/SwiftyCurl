@@ -14,8 +14,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        var request = URLRequest(url: .init(string: "http://die.netzarchitekten.com")!)
-//        request.setValue("benjaminerhart.com", forHTTPHeaderField: "Host")
+        let request = URLRequest(url: .init(string: "http://google.com")!)
 
         let curl = SwiftyCurl()
         curl.followLocation = true
@@ -23,19 +22,21 @@ class ViewController: UIViewController {
 
         let progress = Progress()
         let observation = progress.observe(\.fractionCompleted) { progress, _ in
-            print("Progress: \(progress.completedUnitCount)")
+            print("Progress: \(progress.completedUnitCount) of \(progress.totalUnitCount) = \(progress.fractionCompleted)")
         }
 
         curl.perform(with: request, progress: progress) { data, response, error in
-            print(String(data: data ?? .init(), encoding: .utf8) ?? "(nil)")
+            print(String(data: data ?? .init(), encoding: .ascii) ?? "(nil)")
 
             if let response = response as? HTTPURLResponse {
-                print("Response: \(response.url) \(response.statusCode)\nheaders: \(response.allHeaderFields)")
+                print("Response: \(response.url?.absoluteString ?? "(nil)") \(response.statusCode)\nheaders: \(response.allHeaderFields)")
             }
 
             if let error = error {
                 print("Error: \(error)")
             }
+
+            observation.invalidate()
         }
     }
 }
