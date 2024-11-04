@@ -1,0 +1,16 @@
+PODS:
+  - SwiftyCurl (0.1.0)
+
+DEPENDENCIES:
+  - SwiftyCurl (from `../`)
+
+EXTERNAL SOURCES:
+  SwiftyCurl:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  SwiftyCurl: f5d787af9de1c34ce85df4479e3aa9c40bb1a107
+
+PODFILE CHECKSUM: 5a8741b4ed1148d42d3a89e58af3e937a6945b8a
+
+COCOAPODS: 1.16.1

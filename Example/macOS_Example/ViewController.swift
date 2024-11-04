@@ -1,21 +1,21 @@
 //
 //  ViewController.swift
-//  SwiftyCurl
+//  macOS_Example
 //
-//  Created by Benjamin Erhart on 10/25/2024.
-//  Copyright (c) 2024 Benjamin Erhart. All rights reserved.
+//  Created by Benjamin Erhart on 31.10.24.
+//  Copyright © 2024 CocoaPods. All rights reserved.
 //
 
-import UIKit
+import Cocoa
 import SwiftyCurl
 
-class ViewController: UIViewController {
+class ViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         var request = URLRequest(url: .init(string: "http://die.netzarchitekten.com")!)
-//        request.setValue("benjaminerhart.com", forHTTPHeaderField: "Host")
+        request.setValue("benjaminerhart.com", forHTTPHeaderField: "Host")
 
         let curl = SwiftyCurl()
         curl.followLocation = true
@@ -23,7 +23,7 @@ class ViewController: UIViewController {
 
         let progress = Progress()
         let observation = progress.observe(\.fractionCompleted) { progress, _ in
-            print("Progress: \(progress.completedUnitCount)")
+            print("Progress: \(progress.completedUnitCount) of \(progress.totalUnitCount) = \(progress.fractionCompleted)")
         }
 
         curl.perform(with: request, progress: progress) { data, response, error in
@@ -36,6 +36,8 @@ class ViewController: UIViewController {
             if let error = error {
                 print("Error: \(error)")
             }
+
+            observation.invalidate()
         }
     }
 }

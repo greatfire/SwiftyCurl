@@ -21,22 +21,24 @@ Pod::Spec.new do |s|
 TODO: Add long description of the pod here.
                        DESC
 
-  s.homepage         = 'https://github.com/Benjamin Erhart/SwiftyCurl'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
+  s.homepage         = 'https://github.com/greatfire/SwiftyCurl'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Benjamin Erhart' => 'berhart@netzarchitekten.com' }
-  s.source           = { :git => 'https://github.com/Benjamin Erhart/SwiftyCurl.git', :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
+  s.source           = { :git => 'https://github.com/greatfire/SwiftyCurl.git', :tag => s.version.to_s }
+  s.social_media_url = 'https://twitter.com/tladesignz'
 
-  s.ios.deployment_target = '10.0'
+  s.ios.deployment_target = '12.0'
+  s.macos.deployment_target = '12.0'
 
   s.source_files = 'SwiftyCurl/Classes/**/*'
-  
-  # s.resource_bundles = {
-  #   'SwiftyCurl' => ['SwiftyCurl/Assets/*.png']
-  # }
+  s.private_header_files = 'SwiftyCurl/Classes/SCProgress.h'
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.vendored_frameworks = 'SwiftyCurl/curl.xcframework'
+
+  s.libraries = 'z'
+  s.macos.libraries = 'ldap'
+  s.macos.frameworks = 'SystemConfiguration'
+
+  s.prepare_command = 'SwiftyCurl/download-curl.sh'
+  s.preserve_path = 'SwiftyCurl/download-curl.sh'
 end

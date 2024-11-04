@@ -22,7 +22,7 @@ DerivedData
 .bundle
 
 # Add this line if you want to avoid checking in source code from Carthage dependencies.
-# Carthage/Checkouts
+Carthage/Checkouts
 
 Carthage/Build
 
@@ -33,4 +33,7 @@ Carthage/Build
 # Note: if you ignore the Pods directory, make sure to uncomment
 # `pod install` in .travis.yml
 #
-# Pods/
+Pods/
+
+# Project specific
+SwiftyCurl/curl.xcframework/
