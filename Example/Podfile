@@ -10,10 +10,6 @@ target 'SwiftyCurl_Example' do
   platform :ios, '12.0'
 
   curl
-
-  target 'SwiftyCurl_Tests' do
-    inherit! :search_paths
-  end
 end
 
 target 'macOS_Example' do

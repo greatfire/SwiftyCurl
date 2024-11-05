@@ -36,4 +36,4 @@ Carthage/Build
 Pods/
 
 # Project specific
-SwiftyCurl/curl.xcframework/
+curl.xcframework/

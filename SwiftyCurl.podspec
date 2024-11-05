@@ -24,15 +24,15 @@ SwiftyCurl is an easily usable Swift and Objective-C wrapper for libcurl.
   s.ios.deployment_target = '12.0'
   s.macos.deployment_target = '12.0'
 
-  s.source_files = 'SwiftyCurl/Classes/**/*'
-  s.private_header_files = 'SwiftyCurl/Classes/SCProgress.h'
+  s.source_files = 'Sources/SwiftyCurl/**/*'
+  s.private_header_files = 'Sources/SwiftyCurl/SCProgress.h'
 
-  s.vendored_frameworks = 'SwiftyCurl/curl.xcframework'
+  s.vendored_frameworks = 'curl.xcframework'
 
   s.libraries = 'z'
   s.macos.libraries = 'ldap'
   s.macos.frameworks = 'SystemConfiguration'
 
-  s.prepare_command = 'SwiftyCurl/download-curl.sh'
-  s.preserve_path = 'SwiftyCurl/download-curl.sh'
+  s.prepare_command = 'Sources/download-curl.sh'
+  s.preserve_path = 'Sources/download-curl.sh'
 end
