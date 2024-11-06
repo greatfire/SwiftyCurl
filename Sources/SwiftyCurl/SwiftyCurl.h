@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SCResolveEntry.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -82,6 +83,17 @@ typedef void (^CompletionHandler)(NSData * _Nullable data, NSURLResponse * _Null
  See https://curl.se/libcurl/c/CURLOPT_COOKIEFILE.html and https://curl.se/libcurl/c/CURLOPT_COOKIEJAR.html
  */
 @property NSURL *cookieJar;
+
+/**
+ Custom hostname to IP address resolves.
+
+ This option effectively populates the DNS cache with entries for the host+port pair so redirects and everything that operates against the HOST+PORT instead use your provided ADDRESS.
+
+ If the DNS cache already has an entry for the given host+port pair, the new entry overrides the former one.
+
+ See https://curl.se/libcurl/c/CURLOPT_RESOLVE.html
+ */
+@property NSArray<SCResolveEntry *> *resolve;
 
 /**
  HTTP server authentication methods to try.

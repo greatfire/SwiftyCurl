@@ -82,10 +82,22 @@ int progressCb(void *clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t u
         curl_easy_setopt(curl, CURLOPT_AUTOREFERER, self.autoReferer ? 1 : 0);
         curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, self.followLocation ? 1 : 0);
 
-        if (self.cookieJar.fileURL)
+        if (request.HTTPShouldHandleCookies && self.cookieJar.fileURL)
         {
             curl_easy_setopt(curl, CURLOPT_COOKIEFILE, [self.cookieJar.path cStringUsingEncoding:NSUTF8StringEncoding]);
             curl_easy_setopt(curl, CURLOPT_COOKIEJAR, [self.cookieJar.path cStringUsingEncoding:NSUTF8StringEncoding]);
+        }
+
+        struct curl_slist *hosts = NULL; // Keep it around until after the request is performed.
+
+        if (self.resolve.count > 0)
+        {
+            for (SCResolveEntry *entry in self.resolve)
+            {
+                hosts = curl_slist_append(hosts, [entry.description cStringUsingEncoding:NSUTF8StringEncoding]);
+            }
+
+            curl_easy_setopt(curl, CURLOPT_RESOLVE, hosts);
         }
 
         curl_easy_setopt(curl, CURLOPT_HTTPAUTH, [self getAuth:self.authMethod]);
@@ -149,7 +161,8 @@ int progressCb(void *clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t u
                          [request.URL.absoluteString cStringUsingEncoding:NSUTF8StringEncoding]);
 
         struct curl_slist *headers = NULL;
-        for (NSString *key in request.allHTTPHeaderFields.allKeys) {
+        for (NSString *key in request.allHTTPHeaderFields.allKeys)
+        {
             headers = curl_slist_append(headers,
                                         [[NSString stringWithFormat:
                                           @"%@: %@", key, request.allHTTPHeaderFields[key]]
@@ -162,6 +175,7 @@ int progressCb(void *clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t u
         CURLcode res = curl_easy_perform(curl);
 
         curl_slist_free_all(headers);
+        curl_slist_free_all(hosts);
 
         NSHTTPURLResponse *response = [self parseResponse:headerBuffer from:curl ofUrl:request.URL];
 
