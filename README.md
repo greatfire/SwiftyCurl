@@ -77,7 +77,7 @@ SwiftyCurl relies on [curl-apple](https://github.com/greatfire/curl-apple/), whi
 built for iOS and macOS as an easily ingestible xcframework.
 
 It should be downloaded automaticaly on pod installation, but if this doesn't work,
-please just run [`download-curl.sh`](SwiftyCurl/download-curl.sh) yourself! 
+please just run [`download-curl.sh`](Sources/download-curl.sh) yourself and rerun `pod install`! 
 
 ## Installation
 
