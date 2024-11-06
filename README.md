@@ -73,7 +73,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Requirements
 
-SwiftyCurl relies on [curl-apple](https://github.com/tladesignz/curl-apple/), which is [libcurl](https://curl.se/libcurl/)
+SwiftyCurl relies on [curl-apple](https://github.com/greatfire/curl-apple/), which is [libcurl](https://curl.se/libcurl/)
 built for iOS and macOS as an easily ingestible xcframework.
 
 It should be downloaded automaticaly on pod installation, but if this doesn't work,
