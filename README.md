@@ -41,6 +41,33 @@ together with standard [`Foundation`](https://developer.apple.com/documentation/
         }
 ```
 
+### Singleton
+
+When you use `SwiftyCurl` in a lot of places, it is recommended, that you create a shared singleton,
+instead of constantly creating and destroying `SwiftyCurl` objects.
+
+The reason for this is, that `SwiftyCurl` calls
+[`curl_global_init`](https://curl.se/libcurl/c/curl_global_init.html) on constructions and
+[`curl_global_cleanup`](https://curl.se/libcurl/c/curl_global_cleanup.html) on destruction.
+
+These calls might interfere, if you repeatedly create and destoy `SwiftyCurl` objects.
+
+Do it like this:
+
+```Swift
+extension SwiftyCurl {
+
+    static let shared = {
+        let curl = SwiftyCurl()
+        // Put your standard configuration here.
+
+        return curl
+    }()
+}
+}
+
+```
+
 ## Why
 
 The main reason why this exists, is, that `URLSession` is somewhat limited for specific applications.
