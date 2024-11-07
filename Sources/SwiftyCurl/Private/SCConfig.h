@@ -21,13 +21,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString *allowedProtocols;
 @property BOOL autoReferer;
 @property BOOL followLocation;
-@property NSURL *cookieJar;
-@property NSArray<SCResolveEntry *> *resolve;
+@property (nullable) NSURL *cookieJar;
+@property (nullable) NSArray<SCResolveEntry *> *resolve;
 @property long authMethod;
-@property NSString *username;
-@property NSString *password;
-@property NSString *bearerToken;
-@property NSString *awsSigV4;
+@property (nullable) NSString *username;
+@property (nullable) NSString *password;
+@property (nullable) NSString *bearerToken;
+@property (nullable) NSString *awsSigV4;
+@property (nullable) NSDictionary *proxyDict;
+@property BOOL socksProxyResolves;
 @property BOOL verbose;
 
 @end

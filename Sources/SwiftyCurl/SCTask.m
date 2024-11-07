@@ -39,7 +39,7 @@ int progressCb(void *clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t u
 
     [progress applyUlTotal:ultotal ulNow:ulnow dlTotal:dltotal dlNow:dlnow];
 
-    return progress.cancelled ? 1 : 0;
+    return progress.cancelled;
 }
 
 
@@ -61,14 +61,14 @@ int progressCb(void *clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t u
         _originalRequest = conf.request;
         queue = conf.queue;
 
-        curl_easy_setopt(curl, CURLOPT_PROTOCOLS_STR, [conf.allowedProtocols cStringUsingEncoding:NSUTF8StringEncoding]);
-        curl_easy_setopt(curl, CURLOPT_AUTOREFERER, conf.autoReferer ? 1 : 0);
-        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, conf.followLocation ? 1 : 0);
+        [self set:CURLOPT_PROTOCOLS_STR toString:conf.allowedProtocols];
+        curl_easy_setopt(curl, CURLOPT_AUTOREFERER, conf.autoReferer);
+        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, conf.followLocation);
 
         if (conf.request.HTTPShouldHandleCookies && conf.cookieJar.fileURL)
         {
-            curl_easy_setopt(curl, CURLOPT_COOKIEFILE, [conf.cookieJar.path cStringUsingEncoding:NSUTF8StringEncoding]);
-            curl_easy_setopt(curl, CURLOPT_COOKIEJAR, [conf.cookieJar.path cStringUsingEncoding:NSUTF8StringEncoding]);
+            [self set:CURLOPT_COOKIEFILE toString:conf.cookieJar.path];
+            [self set:CURLOPT_COOKIEJAR toString:conf.cookieJar.path];
         }
 
         hosts = NULL;
@@ -83,14 +83,50 @@ int progressCb(void *clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t u
         }
 
         curl_easy_setopt(curl, CURLOPT_HTTPAUTH, conf.authMethod);
-        curl_easy_setopt(curl, CURLOPT_USERNAME, [conf.username cStringUsingEncoding:NSUTF8StringEncoding]);
-        curl_easy_setopt(curl, CURLOPT_PASSWORD, [conf.password cStringUsingEncoding:NSUTF8StringEncoding]);
-        curl_easy_setopt(curl, CURLOPT_XOAUTH2_BEARER, [conf.bearerToken cStringUsingEncoding:NSUTF8StringEncoding]);
-        curl_easy_setopt(curl, CURLOPT_AWS_SIGV4, [conf.awsSigV4 cStringUsingEncoding:NSUTF8StringEncoding]);
+        [self set:CURLOPT_USERNAME toString:conf.username];
+        [self set:CURLOPT_PASSWORD toString:conf.password];
+        [self set:CURLOPT_XOAUTH2_BEARER toString:conf.bearerToken];
+        [self set:CURLOPT_AWS_SIGV4 toString:conf.awsSigV4];
+
+        if (conf.proxyDict.count > 0)
+        {
+            NSString *type = conf.proxyDict[(__bridge NSString *)kCFProxyTypeKey];
+
+            if ([type isEqualToString:(__bridge NSString *)kCFProxyTypeSOCKS])
+            {
+                curl_easy_setopt(curl, CURLOPT_PROXYTYPE, [self socksProxyType:conf]);
+
+                [self set:CURLOPT_PROXY toString:conf.proxyDict[(__bridge NSString *)kCFStreamPropertySOCKSProxyHost]];
+                curl_easy_setopt(curl, CURLOPT_PROXYPORT, ((NSNumber *)conf.proxyDict[(__bridge NSString *)kCFStreamPropertySOCKSProxyPort]).longValue);
+
+                [self set:CURLOPT_PROXYUSERNAME toString:conf.proxyDict[(__bridge NSString *)kCFStreamPropertySOCKSUser]];
+                [self set:CURLOPT_PROXYPASSWORD toString:conf.proxyDict[(__bridge NSString *)kCFStreamPropertySOCKSPassword]];
+            }
+            else if ([type isEqualToString:(__bridge NSString *)kCFProxyTypeHTTP])
+            {
+                curl_easy_setopt(curl, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                [self set:CURLOPT_PROXY toString:conf.proxyDict[(__bridge NSString *)kCFStreamPropertyHTTPProxyHost]];
+                curl_easy_setopt(curl, CURLOPT_PROXYPORT, ((NSNumber *)conf.proxyDict[(__bridge NSString *)kCFStreamPropertyHTTPProxyPort]).longValue);
+#pragma clang diagnostic pop
+            }
+            else if ([type isEqualToString:(__bridge NSString *)kCFProxyTypeHTTPS])
+            {
+                curl_easy_setopt(curl, CURLOPT_PROXYTYPE, CURLPROXY_HTTPS);
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                [self set:CURLOPT_PROXY toString:conf.proxyDict[(__bridge NSString *)kCFStreamPropertyHTTPSProxyHost]];
+                curl_easy_setopt(curl, CURLOPT_PROXYPORT, ((NSNumber *)conf.proxyDict[(__bridge NSString *)kCFStreamPropertyHTTPSProxyPort]).longValue);
+#pragma clang diagnostic pop
+            }
+        }
 
         // Only allow this to be set during development!
         if (DEBUG) {
-            curl_easy_setopt(curl, CURLOPT_VERBOSE, conf.verbose ? 1 : 0);
+            curl_easy_setopt(curl, CURLOPT_VERBOSE, conf.verbose);
         }
 
         _progress = conf.progress != nil ? conf.progress : [NSProgress progressWithTotalUnitCount:0];
@@ -125,17 +161,14 @@ int progressCb(void *clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t u
             curl_easy_setopt(curl, CURLOPT_POST, 1);
             curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE_LARGE, conf.request.HTTPBody.length);
             curl_easy_setopt(curl, CURLOPT_COPYPOSTFIELDS, conf.request.HTTPBody.bytes);
-            curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST,
-                             [@"PUT" cStringUsingEncoding:NSUTF8StringEncoding]);
+            [self set: CURLOPT_CUSTOMREQUEST toString:@"PUT"];
         }
         else {
             curl_easy_setopt(curl, CURLOPT_POST, 0);
-            curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST,
-                             [conf.request.HTTPMethod cStringUsingEncoding:NSUTF8StringEncoding]);
+            [self set: CURLOPT_CUSTOMREQUEST toString:conf.request.HTTPMethod];
         }
 
-        curl_easy_setopt(curl, CURLOPT_URL,
-                         [conf.request.URL.absoluteString cStringUsingEncoding:NSUTF8StringEncoding]);
+        [self set:CURLOPT_URL toString:conf.request.URL.absoluteString];
 
         headers = NULL;
         for (NSString *key in conf.request.allHTTPHeaderFields.allKeys)
@@ -247,6 +280,26 @@ int progressCb(void *clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t u
 
     curl_slist_free_all(headers);
     headers = NULL;
+}
+
+- (long)socksProxyType:(SCConfig *)conf
+{
+    NSString *version = conf.proxyDict[(__bridge NSString *)kCFStreamPropertySOCKSVersion];
+
+    if ([version isEqualToString:(__bridge NSString *)kCFStreamSocketSOCKSVersion4])
+    {
+        return conf.socksProxyResolves ? CURLPROXY_SOCKS4A : CURLPROXY_SOCKS4;
+    }
+    else if ([version isEqualToString:(__bridge NSString *)kCFStreamSocketSOCKSVersion5]) {
+        return conf.socksProxyResolves ? CURLPROXY_SOCKS5_HOSTNAME : CURLPROXY_SOCKS5;
+    }
+
+    return -1;
+}
+
+- (void)set:(CURLoption)option toString:(NSString *)string
+{
+    curl_easy_setopt(curl, option, [string cStringUsingEncoding:NSUTF8StringEncoding]);
 }
 
 - (nullable NSHTTPURLResponse *)parseResponse

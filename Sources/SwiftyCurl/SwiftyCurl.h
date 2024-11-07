@@ -74,7 +74,7 @@ typedef NS_ENUM(NSUInteger, SwiftyCurlAuthMethods) {
 
  See https://curl.se/libcurl/c/CURLOPT_COOKIEFILE.html and https://curl.se/libcurl/c/CURLOPT_COOKIEJAR.html
  */
-@property NSURL *cookieJar;
+@property (nullable) NSURL *cookieJar;
 
 /**
  Custom hostname to IP address resolves.
@@ -85,7 +85,7 @@ typedef NS_ENUM(NSUInteger, SwiftyCurlAuthMethods) {
 
  See https://curl.se/libcurl/c/CURLOPT_RESOLVE.html
  */
-@property NSArray<SCResolveEntry *> *resolve;
+@property (nullable) NSArray<SCResolveEntry *> *resolve;
 
 /**
  HTTP server authentication methods to try.
@@ -103,7 +103,7 @@ typedef NS_ENUM(NSUInteger, SwiftyCurlAuthMethods) {
 
  See https://curl.se/libcurl/c/CURLOPT_USERNAME.html
  */
-@property NSString *username;
+@property (nullable) NSString *username;
 
 /**
  Password to use in authentication.
@@ -112,7 +112,7 @@ typedef NS_ENUM(NSUInteger, SwiftyCurlAuthMethods) {
 
  See https://curl.se/libcurl/c/CURLOPT_PASSWORD.html
  */
-@property NSString *password;
+@property (nullable) NSString *password;
 
 /**
  OAuth 2.0 access token.
@@ -121,7 +121,7 @@ typedef NS_ENUM(NSUInteger, SwiftyCurlAuthMethods) {
 
  See https://curl.se/libcurl/c/CURLOPT_XOAUTH2_BEARER.html
  */
-@property NSString *bearerToken;
+@property (nullable) NSString *bearerToken;
 
 /**
  AWS V4 signature.
@@ -130,7 +130,60 @@ typedef NS_ENUM(NSUInteger, SwiftyCurlAuthMethods) {
 
  See https://curl.se/libcurl/c/CURLOPT_AWS_SIGV4.html
  */
-@property NSString *awsSigV4;
+@property (nullable) NSString *awsSigV4;
+
+/**
+ `URLSession` compatible proxy dictionary.
+
+ HTTP, HTTPS and SOCKS proxy configurations are supported:
+
+ ```
+ {
+    kCFProxyTypeKey: kCFProxyTypeSOCKS,
+    kCFStreamPropertySOCKSVersion: kCFStreamSocketSOCKSVersion4|kCFStreamSocketSOCKSVersion5,
+    kCFStreamPropertySOCKSProxyHost: "127.0.0.1",
+    kCFStreamPropertySOCKSProxyPort: 1080,
+    kCFStreamPropertySOCKSUser: "nobody", # OPTIONAL
+    kCFStreamPropertySOCKSPassword: "foobar", # OPTIONAL
+ },
+ {
+    kCFProxyTypeKey: kCFProxyTypeHTTP,
+    kCFStreamPropertyHTTPProxyHost: "127.0.0.1",
+    kCFStreamPropertyHTTPProxyPort: 1080,
+ },
+ {
+    kCFProxyTypeKey: kCFProxyTypeHTTPS,
+    kCFStreamPropertyHTTPSProxyHost: "127.0.0.1",
+    kCFStreamPropertyHTTPSProxyPort: 1080,
+ },
+ ```
+
+ For SOCKS proxies, curl supports 2 variants: One, where curl resolves hostnames, one where the SOCKS proxy resolves hostnames.
+
+ @see [socksProxyResolves] to stear that behaviour.
+
+ See:
+ - https://curl.se/libcurl/c/CURLOPT_PROXYTYPE.html
+ - https://curl.se/libcurl/c/CURLOPT_PROXY.html
+ - https://curl.se/libcurl/c/CURLOPT_PROXYPORT.html
+ - https://curl.se/libcurl/c/CURLOPT_PROXYUSERNAME.html
+ - https://curl.se/libcurl/c/CURLOPT_PROXYPASSWORD.html
+ - https://developer.apple.com/documentation/foundation/nsurlsessionconfiguration/1411499-connectionproxydictionary?language=objc
+ - https://developer.apple.com/documentation/cfnetwork
+ -
+ */
+@property (nullable) NSDictionary *proxyDict;
+
+/**
+ Set this to true, if you want to have curl let the SOCKS proxy resolve hostnames.
+
+ This is useful, if you're working with a proxy, which doesn't have UDP support for regular DNS.
+
+ But the `resolve` property will become useless, then.
+
+ @see [resolve]
+ */
+@property BOOL socksProxyResolves;
 
 /**
  Verbose mode. Only honored when project is compiled i DEBUG mode.

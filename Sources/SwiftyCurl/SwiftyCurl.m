@@ -83,6 +83,8 @@
     conf.password = self.password;
     conf.bearerToken = self.bearerToken;
     conf.awsSigV4 = self.awsSigV4;
+    conf.proxyDict = self.proxyDict;
+    conf.socksProxyResolves = self.socksProxyResolves;
     conf.verbose = self.verbose;
 
     return [[SCTask alloc] initWith:conf];
