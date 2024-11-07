@@ -124,10 +124,10 @@ int progressCb(void *clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t u
             }
         }
 
+#ifdef DEBUG
         // Only allow this to be set during development!
-        if (DEBUG) {
-            curl_easy_setopt(curl, CURLOPT_VERBOSE, conf.verbose);
-        }
+        curl_easy_setopt(curl, CURLOPT_VERBOSE, conf.verbose);
+#endif
 
         _progress = conf.progress != nil ? conf.progress : [NSProgress progressWithTotalUnitCount:0];
         scProgress = [[SCProgress alloc] initWith:self.progress];

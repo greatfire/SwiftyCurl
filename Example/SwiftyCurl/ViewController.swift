@@ -19,6 +19,7 @@ class ViewController: UIViewController {
         let curl = SwiftyCurl()
         curl.followLocation = true
         curl.queue = .global(qos: .background)
+        curl.verbose = true
 
         let progress = Progress()
         let observation1 = progress.observe(\.fractionCompleted) { progress, _ in
