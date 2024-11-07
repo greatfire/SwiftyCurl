@@ -168,19 +168,24 @@ int progressCb(void *clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t u
             [self cleanup];
             break;
 
-        case NSURLSessionTaskStateCanceling:
-            return;
-
-        case NSURLSessionTaskStateCompleted:
+        default:
             return;
     }
 }
 
 - (void)resumeWith:(CompletionHandler)completionHandler
 {
-    if (self.state != NSURLSessionTaskStateSuspended)
-    {
-        return;
+    switch (self.state) {
+        case NSURLSessionTaskStateSuspended:
+            break;
+
+        case NSURLSessionTaskStateCanceling:
+            completionHandler(nil, nil, self.error);
+            return;
+
+
+        default:
+            return;
     }
 
     _state = NSURLSessionTaskStateRunning;
@@ -188,10 +193,14 @@ int progressCb(void *clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t u
     dispatch_async(queue, ^{
         CURLcode res = curl_easy_perform(self->curl);
 
-        // We got cancelled during perform. Do not call the completion handler!
+        // We got cancelled during perform!
         if (self.state == NSURLSessionTaskStateCanceling)
         {
-            return [self cleanup];
+            [self cleanup];
+
+            completionHandler(nil, nil, self.error);
+
+            return;
         }
 
         self->_response = [self parseResponse];
