@@ -51,7 +51,7 @@
          completionHandler:(CompletionHandler)completionHandler
 {
     [[self taskWithRequest:request progress:progress]
-     resumeWith:completionHandler];
+     resume:completionHandler];
 }
 
 - (nullable SCTask *)taskWithURL:(nonnull NSURL *)url
