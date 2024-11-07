@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "SCResolveEntry.h"
+#import "SCTask.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -25,15 +26,6 @@ typedef NS_ENUM(NSUInteger, SwiftyCurlAuthMethods) {
     Any,
     AnySafe,
 };
-
-/**
- @param data Received response data. Might be `nil` if server returned no response body or an error happened.
-
- @param response Actually a `NSHTTPURLResponse` object with information about returned HTTP status code, HTTP method used and response headers. Will be `nil` if an error happened.
-
- @param error Any error happening during the request. Will be `nil` if a response was received.
- */
-typedef void (^CompletionHandler)(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error);
 
 
 /**
@@ -169,7 +161,7 @@ typedef void (^CompletionHandler)(NSData * _Nullable data, NSURLResponse * _Null
      - `response`: Actually a `NSHTTPURLResponse` object with information about returned HTTP status code, HTTP method used and response headers. Will be `nil` if an error happened.
      - `error`: Any error happening during the request. Will be `nil` if a response was received.
  */
-- (void)performWithURL:(NSURL *)url completionHandler:(nonnull CompletionHandler)completionHandler;
+- (void)performWithURL:(nonnull NSURL *)url completionHandler:(nonnull CompletionHandler)completionHandler;
 
 /**
  Perform a given request asynchronously.
@@ -181,7 +173,7 @@ typedef void (^CompletionHandler)(NSData * _Nullable data, NSURLResponse * _Null
      - `response`: Actually a `NSHTTPURLResponse` object with information about returned HTTP status code, HTTP method used and response headers. Will be `nil` if an error happened.
      - `error`: Any error happening during the request. Will be `nil` if a response was received.
  */
-- (void)performWithRequest:(NSURLRequest *)request completionHandler:(nonnull CompletionHandler)completionHandler;
+- (void)performWithRequest:(nonnull NSURLRequest *)request completionHandler:(nonnull CompletionHandler)completionHandler;
 
 /**
  Perform a GET request to a given URL asynchronously.
@@ -195,7 +187,7 @@ typedef void (^CompletionHandler)(NSData * _Nullable data, NSURLResponse * _Null
      - `response`: Actually a `NSHTTPURLResponse` object with information about returned HTTP status code, HTTP method used and response headers. Will be `nil` if an error happened.
      - `error`: Any error happening during the request. Will be `nil` if a response was received.
  */
-- (void)performWithURL:(NSURL *)url progress:(nullable NSProgress *)progress completionHandler:(nonnull CompletionHandler)completionHandler;
+- (void)performWithURL:(nonnull NSURL *)url progress:(nullable NSProgress *)progress completionHandler:(nonnull CompletionHandler)completionHandler;
 
 /**
  Perform a given request asynchronously.
@@ -209,7 +201,36 @@ typedef void (^CompletionHandler)(NSData * _Nullable data, NSURLResponse * _Null
      - `response`: Actually a `NSHTTPURLResponse` object with information about returned HTTP status code, HTTP method used and response headers. Will be `nil` if an error happened.
      - `error`: Any error happening during the request. Will be `nil` if a response was received.
  */
-- (void)performWithRequest:(NSURLRequest *)request progress:(nullable NSProgress *)progress completionHandler:(nonnull CompletionHandler)completionHandler;
+- (void)performWithRequest:(nonnull NSURLRequest *)request progress:(nullable NSProgress *)progress completionHandler:(nonnull CompletionHandler)completionHandler;
+
+/**
+ Create a task with the given URL.
+
+ @param url The URL to send a GET request to.
+
+ @returns A prepared `SCTask` object you will need to `resume` to actually perform the request.
+ */
+- (nullable SCTask *)taskWithURL:(nonnull NSURL *)url;
+
+/**
+ Create a task with the given request.
+
+ @param request The request to send. URL, method, headers, body and timeout properties will be honored.
+
+ @returns A prepared `SCTask` object you will need to `resume` to actually perform the request.
+ */
+- (nullable SCTask *)taskWithRequest:(nonnull NSURLRequest *)request;
+
+/**
+ Create a task with the given request.
+
+ @param request The request to send. URL, method, headers, body and timeout properties will be honored.
+
+ @param progress An optional `NSProgress` object where the progress will be reported on. OPTIONAL. Will be created if `nil` and available on the `SCTask` object.
+
+ @returns A prepared `SCTask` object you will need to `resume` to actually perform the request.
+ */
+- (nullable SCTask *)taskWithRequest:(nonnull NSURLRequest *)request progress:(nullable NSProgress *)progress;
 
 @end
 

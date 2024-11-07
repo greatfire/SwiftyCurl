@@ -40,8 +40,24 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property BOOL timeout;
 
+/**
+ Creates and returns a `SCResolveEntry` instance.
+
+ @param host The name libcurl wants to resolve.
+
+ @param port The port number of the service where libcurl wants to connect to.
+
+ @param addresses One or more numerical IP addresses.
+ */
 - (instancetype)initWith:(NSString * _Nonnull)host port:(NSUInteger)port addresses:(NSArray<NSString *> * _Nonnull)addresses;
 
+/**
+ Creates and returns a `SCResolveEntry` instance.
+
+ @param url Host and port will be taken from this.
+
+ @param addresses One or more numerical IP addresses.
+ */
 - (instancetype)initWithURL:(NSURL * _Nonnull)url addresses:(NSArray<NSString *> * _Nonnull)addresses;
 
 
