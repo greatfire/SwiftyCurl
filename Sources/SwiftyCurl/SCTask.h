@@ -86,7 +86,7 @@ typedef void (^CompletionHandler)(NSData * _Nullable data, NSURLResponse * _Null
 
  Newly-initialized tasks begin in a suspended state, so you need to call this method to start the task.
  */
-- (void)resume: (nonnull CompletionHandler)completionHandler;
+- (void)resume:(nonnull CompletionHandler)completionHandler;
 
 @end
 
