@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -45,7 +45,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		A0081E6B2CD3BF1E00753541 /* macOS_Example */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = macOS_Example; sourceTree = "<group>"; };
+		A0081E6B2CD3BF1E00753541 /* macOS_Example */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
+			path = macOS_Example;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,7 +220,6 @@
 				};
 			};
 			buildConfigurationList = 607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "SwiftyCurl" */;
-			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -223,6 +228,7 @@
 				Base,
 			);
 			mainGroup = 607FACC71AFB9204008FA782;
+			preferredProjectObjectVersion = 77;
 			productRefGroup = 607FACD11AFB9204008FA782 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -258,13 +264,12 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SwiftyCurl_Example/Pods-SwiftyCurl_Example-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/SwiftyCurl-iOS/SwiftyCurl.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SwiftyCurl_Example/Pods-SwiftyCurl_Example-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyCurl.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SwiftyCurl_Example/Pods-SwiftyCurl_Example-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -320,13 +325,12 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-macOS_Example/Pods-macOS_Example-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/SwiftyCurl-macOS/SwiftyCurl.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-macOS_Example/Pods-macOS_Example-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyCurl.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-macOS_Example/Pods-macOS_Example-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

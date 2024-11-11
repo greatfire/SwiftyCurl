@@ -50,7 +50,7 @@ The reason for this is, that `SwiftyCurl` calls
 [`curl_global_init`](https://curl.se/libcurl/c/curl_global_init.html) on constructions and
 [`curl_global_cleanup`](https://curl.se/libcurl/c/curl_global_cleanup.html) on destruction.
 
-These calls might interfere, if you repeatedly create and destoy `SwiftyCurl` objects.
+These calls might interfere, if you repeatedly create and destroy `SwiftyCurl` objects.
 
 Do it like this:
 
