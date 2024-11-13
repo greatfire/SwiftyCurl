@@ -46,6 +46,15 @@ NS_ASSUME_NONNULL_BEGIN
  @param host The name libcurl wants to resolve.
 
  @param port The port number of the service where libcurl wants to connect to.
+ */
+- (instancetype)initWith:(NSString * _Nonnull)host port:(NSUInteger)port;
+
+/**
+ Creates and returns a `SCResolveEntry` instance.
+
+ @param host The name libcurl wants to resolve.
+
+ @param port The port number of the service where libcurl wants to connect to.
 
  @param addresses One or more numerical IP addresses.
  */
@@ -55,10 +64,24 @@ NS_ASSUME_NONNULL_BEGIN
  Creates and returns a `SCResolveEntry` instance.
 
  @param url Host and port will be taken from this.
+ */
+- (instancetype)initWithURL:(NSURL * _Nonnull)url;
+
+/**
+ Creates and returns a `SCResolveEntry` instance.
+
+ @param url Host and port will be taken from this.
 
  @param addresses One or more numerical IP addresses.
  */
 - (instancetype)initWithURL:(NSURL * _Nonnull)url addresses:(NSArray<NSString *> * _Nonnull)addresses;
+
+/**
+ `SCResolveEntry` objects are considered equal, when their host and port properties are equal.
+
+ This allows to easily clean arrays and sets from doubled entries, which would jeopardize the name resolution process, otherwise.
+ */
+- (BOOL)isEqualToResolveEntry:(SCResolveEntry * _Nullable)other;
 
 
 @end

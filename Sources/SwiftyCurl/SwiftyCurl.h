@@ -279,7 +279,7 @@ typedef NS_ENUM(NSUInteger, SwiftyCurlAuthMethods) {
 
  @param request The request to send. URL, method, headers, body and timeout properties will be honored.
 
- @param progress An optional `NSProgress` object where the progress will be reported on. OPTIONAL. Will be created if `nil` and available on the `SCTask` object.
+ @param progress An optional `NSProgress` object where the progress will be reported on. OPTIONAL. Will be created if `nil` and made available on the `SCTask` object.
 
  @returns A prepared `SCTask` object you will need to `resume` to actually perform the request.
  */
