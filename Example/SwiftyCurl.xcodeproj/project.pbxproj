@@ -39,6 +39,7 @@
 		A0081E6A2CD3BF1E00753541 /* macOS_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = macOS_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A019E3E12CDA56A400E942AC /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Package.swift; path = ../Package.swift; sourceTree = SOURCE_ROOT; };
 		A019E3FB2CDA649300E942AC /* download-curl.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = "download-curl.sh"; path = "../Sources/download-curl.sh"; sourceTree = SOURCE_ROOT; };
+		A03000A42CE4F355006D6871 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../CHANGELOG.md; sourceTree = SOURCE_ROOT; };
 		C1F410F43F13E17C434C1DD8 /* Pods-SwiftyCurl_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftyCurl_Example.release.xcconfig"; path = "Target Support Files/Pods-SwiftyCurl_Example/Pods-SwiftyCurl_Example.release.xcconfig"; sourceTree = "<group>"; };
 		DF42F0E6A53263BF06B200A8 /* Pods_SwiftyCurl_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftyCurl_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F73CA099A5BF9DA1603E067B /* Pods-tvOS_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tvOS_Example.release.xcconfig"; path = "Target Support Files/Pods-tvOS_Example/Pods-tvOS_Example.release.xcconfig"; sourceTree = "<group>"; };
@@ -47,8 +48,6 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		A0081E6B2CD3BF1E00753541 /* macOS_Example */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = macOS_Example;
 			sourceTree = "<group>";
 		};
@@ -132,6 +131,7 @@
 				1DCDDE27AF4244B185935B1B /* SwiftyCurl.podspec */,
 				A019E3E12CDA56A400E942AC /* Package.swift */,
 				4520D110A8F7ED2D69ECF22A /* README.md */,
+				A03000A42CE4F355006D6871 /* CHANGELOG.md */,
 				2961F27C0D855A5E13052D2E /* LICENSE */,
 				A0081E002CD3B2C800753541 /* Podfile */,
 				A0081E012CD3B2C800753541 /* Podfile.lock */,
