@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString *allowedProtocols;
 @property BOOL autoReferer;
 @property BOOL followLocation;
+@property (nullable) NSString *userAgent;
 @property (nullable) NSURL *cookieJar;
 @property (nullable) NSArray<SCResolveEntry *> *resolve;
 @property long authMethod;

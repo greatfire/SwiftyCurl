@@ -64,6 +64,7 @@ int progressCb(void *clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t u
         [self set:CURLOPT_PROTOCOLS_STR toString:conf.allowedProtocols];
         curl_easy_setopt(curl, CURLOPT_AUTOREFERER, conf.autoReferer);
         curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, conf.followLocation);
+        [self set:CURLOPT_USERAGENT toString:conf.userAgent];
 
         if (conf.request.HTTPShouldHandleCookies && conf.cookieJar.fileURL)
         {

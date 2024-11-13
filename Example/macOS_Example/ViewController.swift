@@ -26,35 +26,39 @@ class ViewController: NSViewController {
             print("Progress1: \(progress.completedUnitCount) of \(progress.totalUnitCount) = \(progress.fractionCompleted)")
         }
 
-        curl.perform(with: request, progress: progress) { data, response, error in
-//            print(String(data: data ?? .init(), encoding: .ascii) ?? "(nil)")
+        Task {
+            curl.userAgent = await SwiftyCurl.defaultUserAgent()
 
-            if let response = response as? HTTPURLResponse {
-                print("Response1: \(response.url?.absoluteString ?? "(nil)") \(response.statusCode)\nheaders: \(response.allHeaderFields)")
+            do {
+                let (data, response) = try await curl.perform(with: request, progress: progress)
+//                print(String(data: data, encoding: .ascii) ?? "(nil)")
+
+                if let response = response as? HTTPURLResponse {
+                    print("Response1: \(response.url?.absoluteString ?? "(nil)") \(response.statusCode)\nheaders: \(response.allHeaderFields)")
+                }
             }
-
-            if let error = error {
+            catch {
                 print("Error: \(error)")
             }
 
             observation1.invalidate()
-        }
 
-        let task = curl.task(with: request)
-        let observation2 = task?.progress.observe(\.fractionCompleted) { progress, _ in
-            print("Progress2: \(progress.completedUnitCount) of \(progress.totalUnitCount) = \(progress.fractionCompleted)")
-        }
-
-        print("Ticket: \(task?.taskIdentifier ?? UInt.max)")
-
-        task?.resume { data, response, error in
-//            print(String(data: data ?? .init(), encoding: .ascii) ?? "(nil)")
-
-            if let response = response as? HTTPURLResponse {
-                print("Response2: \(response.url?.absoluteString ?? "(nil)") \(response.statusCode)\nheaders: \(response.allHeaderFields)")
+            let task = curl.task(with: request)
+            let observation2 = task?.progress.observe(\.fractionCompleted) { progress, _ in
+                print("Progress2: \(progress.completedUnitCount) of \(progress.totalUnitCount) = \(progress.fractionCompleted)")
             }
 
-            if let error = error {
+            print("Ticket: \(task?.taskIdentifier ?? UInt.max)")
+
+            do {
+                let result = try await task?.resume()
+//                print(String(data: result?.0 ?? .init(), encoding: .ascii) ?? "(nil)")
+
+                if let response = result?.1 as? HTTPURLResponse {
+                    print("Response2: \(response.url?.absoluteString ?? "(nil)") \(response.statusCode)\nheaders: \(response.allHeaderFields)")
+                }
+            }
+            catch {
                 print("Error: \(error)")
             }
 

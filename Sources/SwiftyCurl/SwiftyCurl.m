@@ -7,6 +7,7 @@
 
 #import "SwiftyCurl.h"
 #import "Private/SCTask-Private.h"
+#import <WebKit/WebKit.h>
 #import <curl/curl.h>
 
 @implementation SwiftyCurl
@@ -76,6 +77,7 @@
     conf.allowedProtocols = self.allowedProtocols;
     conf.autoReferer = self.autoReferer;
     conf.followLocation = self.followLocation;
+    conf.userAgent = self.userAgent;
     conf.cookieJar = self.cookieJar;
     conf.resolve = self.resolve;
     conf.authMethod = [self getAuth:self.authMethod];
@@ -94,6 +96,20 @@
 {
     curl_global_cleanup();
 }
+
+static WKWebView *webView;
+
++ (void)defaultUserAgent:(nonnull void (^)(NSString * _Nullable __strong))completionHandler
+{
+    webView = [[WKWebView alloc] initWithFrame:CGRectZero];
+
+    [webView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id result, NSError *error) {
+        webView = nil;
+
+        completionHandler((NSString *)result);
+    }];
+}
+
 
 
 // MARK: - Private Methods

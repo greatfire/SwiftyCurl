@@ -64,6 +64,15 @@ typedef NS_ENUM(NSUInteger, SwiftyCurlAuthMethods) {
 @property BOOL followLocation;
 
 /**
+ HTTP user-agent header
+
+ Defaults to `nil`.
+
+ See https://curl.se/libcurl/c/CURLOPT_USERAGENT.html
+ */
+@property (nullable) NSString *userAgent;
+
+/**
  The location of a file on disk which will be used as the Cookie jar.
 
  The cookie data can be in either the old Netscape / Mozilla cookie data format or just regular HTTP headers (Set-Cookie style) dumped to a file.
@@ -284,6 +293,14 @@ typedef NS_ENUM(NSUInteger, SwiftyCurlAuthMethods) {
  @returns A prepared `SCTask` object you will need to `resume` to actually perform the request.
  */
 - (nullable SCTask *)taskWithRequest:(nonnull NSURLRequest *)request progress:(nullable NSProgress *)progress;
+
+/**
+ Helper function to fetch the user-agent string which `WKWebView` would use.
+
+ @param completionHandler Callback, when user-agent is received.
+    -  `userAgent`: User-Agent header used by `WKWebView`.
+ */
++ (void)defaultUserAgent:(void (^)(NSString  * _Nullable userAgent))completionHandler;
 
 @end
 
