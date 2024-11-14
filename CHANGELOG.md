@@ -1,5 +1,11 @@
 # SwiftyCurl Changelog
 
+## 0.3.0
+
+- Added `User-Agent` header support.
+- Improved class naming for Swift.
+- Added cleanup on deallocation to `SCTask` in case it was never resumed.
+
 ## 0.2.0
 
 - Fixed Xcode project.
