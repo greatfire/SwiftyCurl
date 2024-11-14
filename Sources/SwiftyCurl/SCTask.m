@@ -261,6 +261,11 @@ int progressCb(void *clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t u
     });
 }
 
+- (void)dealloc
+{
+    [self cleanup];
+}
+
 
 // MARK: - Private Methods
 
