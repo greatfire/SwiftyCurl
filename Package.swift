@@ -21,12 +21,11 @@ let package = Package(
         .target(
             name: "SwiftyCurl",
             dependencies: ["CurlApple"],
-            exclude: ["Example"],
             // Needed for CurlApple, but not allowed in `.binaryTarget`. Hrgrml. But works this way.
             linkerSettings: [
                 .linkedLibrary("z"),
                 .linkedLibrary("ldap", .when(platforms: [.macOS])),
                 .linkedFramework("SystemConfiguration", .when(platforms: [.macOS]))]),
     ],
-    swiftLanguageVersions: [.v5]
+    swiftLanguageModes: [.v5]
 )
