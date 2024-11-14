@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  See https://curl.se/libcurl/c/CURLOPT_RESOLVE.html.
  */
+NS_SWIFT_NAME(CurlResolveEntry)
 @interface SCResolveEntry : NSObject
 
 /**

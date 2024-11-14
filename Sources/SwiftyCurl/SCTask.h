@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  The API is similar to `NSURLSessionTask` but does not inherit it, because some features are not supported with Curl.
  */
+NS_SWIFT_NAME(CurlTask)
 @interface SCTask : NSObject
 
 /**
