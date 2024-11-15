@@ -7,7 +7,6 @@
 SwiftyCurl is an easily usable Swift and Objective-C wrapper for [libcurl](https://curl.se/libcurl/).
 
 It uses native Darwin multithreading in conjunction with libcurl's "easy" interface,
-(Instead of libcurl's own "multi" multithreading, which feels pretty clunky on Apple platforms.) 
 together with standard [`Foundation`](https://developer.apple.com/documentation/foundation) classes 
 [`URLRequest`](https://developer.apple.com/documentation/foundation/urlrequest) and 
 [`HTTPURLResponse`](https://developer.apple.com/documentation/foundation/httpurlresponse).
@@ -39,6 +38,31 @@ together with standard [`Foundation`](https://developer.apple.com/documentation/
 
             observation.invalidate()
         }
+
+        // or
+        
+        Task {
+            let task = curl.task(with: request)
+            let observation2 = task?.progress.observe(\.fractionCompleted) { progress, _ in
+                print("Progress2: \(progress.completedUnitCount) of \(progress.totalUnitCount) = \(progress.fractionCompleted)")
+            }
+
+            print("Ticket: \(task?.taskIdentifier ?? UInt.max)")
+
+            do {
+                let result = try await task?.resume()
+                print(String(data: result?.0 ?? .init(), encoding: .ascii) ?? "(nil)")
+
+                if let response = result?.1 as? HTTPURLResponse {
+                    print("Response2: \(response.url?.absoluteString ?? "(nil)") \(response.statusCode)\nheaders: \(response.allHeaderFields)")
+                }
+            }
+            catch {
+                print("Error: \(error)")
+            }
+
+            observation2?.invalidate()
+    }
 ```
 
 ### Singleton
