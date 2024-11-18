@@ -132,11 +132,23 @@ please just run [`download-curl.sh`](Sources/download-curl.sh) yourself and reru
 
 ## Installation
 
+### CocoaPods
+
 SwiftyCurl is available through [CocoaPods](https://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
 pod 'SwiftyCurl'
+```
+
+### Swift Package Manager
+
+```Swift
+    …
+    dependencies: [
+        .package(url: "https://github.com/greatfire/SwiftyCurl", from: "0.3.0"),
+    ],
+    …
 ```
 
 ## Author
@@ -145,4 +157,4 @@ Benjamin Erhart, berhart@netzarchitekten.com
 
 ## License
 
-SwiftyCurl is available under the MIT license. See the LICENSE file for more info.
+SwiftyCurl is available under the MIT license. See the [LICENSE](LICENSE) file for more info.
