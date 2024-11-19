@@ -46,7 +46,7 @@ size_t headerCb(char *data, size_t size, size_t nmemb, void *userdata)
 
     if (response.statusCode >= 300 && response.statusCode < 400)
     {
-        NSString *location = [response valueForHTTPHeaderField:@"Location"];
+        NSString *location = response.allHeaderFields[@"Location"];
         NSURL *url = [NSURL URLWithString:location];
 
         if (url)
@@ -78,7 +78,7 @@ size_t headerCb(char *data, size_t size, size_t nmemb, void *userdata)
         if (url)
         {
 
-            NSString *auth = [response valueForHTTPHeaderField:response.statusCode == 401 ? @"WWW-Authenticate" : @"Proxy-Authenticate"];
+            NSString *auth = response.allHeaderFields[response.statusCode == 401 ? @"WWW-Authenticate" : @"Proxy-Authenticate"];
             NSString *realm;
             NSString *method;
 
