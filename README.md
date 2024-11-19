@@ -14,54 +14,95 @@ together with standard [`Foundation`](https://developer.apple.com/documentation/
 ## Usage
 
 ```Swift
-        let request = URLRequest(url: .init(string: "http://google.com")!)
+    let request = URLRequest(url: .init(string: "http://google.com")!)
 
-        let curl = SwiftyCurl()
-        curl.followLocation = true
-        curl.queue = .global(qos: .background)
+    let curl = SwiftyCurl()
+    curl.followLocation = true
+    curl.queue = .global(qos: .background)
 
-        let progress = Progress()
-        let observation = progress.observe(\.fractionCompleted) { progress, _ in
-            print("Progress: \(progress.completedUnitCount) of \(progress.totalUnitCount) = \(progress.fractionCompleted)")
+    let progress = Progress()
+    let observation = progress.observe(\.fractionCompleted) { progress, _ in
+        print("Progress: \(progress.completedUnitCount) of \(progress.totalUnitCount) = \(progress.fractionCompleted)")
+    }
+
+    curl.perform(with: request, progress: progress) { data, response, error in
+        print(String(data: data ?? .init(), encoding: .ascii) ?? "(nil)")
+
+        if let response = response as? HTTPURLResponse {
+            print("Response: \(response.url?.absoluteString ?? "(nil)") \(response.statusCode)\nheaders: \(response.allHeaderFields)")
         }
 
-        curl.perform(with: request, progress: progress) { data, response, error in
-            print(String(data: data ?? .init(), encoding: .ascii) ?? "(nil)")
-
-            if let response = response as? HTTPURLResponse {
-                print("Response: \(response.url?.absoluteString ?? "(nil)") \(response.statusCode)\nheaders: \(response.allHeaderFields)")
-            }
-
-            if let error = error {
-                print("Error: \(error)")
-            }
-
-            observation.invalidate()
+        if let error = error {
+            print("Error: \(error)")
         }
 
-        // or
-        
-        Task {
-            let task = curl.task(with: request)
-            let observation2 = task?.progress.observe(\.fractionCompleted) { progress, _ in
-                print("Progress2: \(progress.completedUnitCount) of \(progress.totalUnitCount) = \(progress.fractionCompleted)")
+        observation.invalidate()
+    }
+
+    // or
+    
+    Task {
+        let task = curl.task(with: request)
+        let observation2 = task?.progress.observe(\.fractionCompleted) { progress, _ in
+            print("Progress2: \(progress.completedUnitCount) of \(progress.totalUnitCount) = \(progress.fractionCompleted)")
+        }
+
+        print("Ticket: \(task?.taskIdentifier ?? UInt.max)")
+
+        do {
+            let result = try await task?.resume()
+            print(String(data: result?.0 ?? .init(), encoding: .ascii) ?? "(nil)")
+
+            if let response = result?.1 as? HTTPURLResponse {
+                print("Response2: \(response.url?.absoluteString ?? "(nil)") \(response.statusCode)\nheaders: \(response.allHeaderFields)")
             }
+        }
+        catch {
+            print("Error: \(error)")
+        }
 
-            print("Ticket: \(task?.taskIdentifier ?? UInt.max)")
+        observation2?.invalidate()
+    }
+    
+    // or
+    
+    let task = curl.task(with: request)
+    task.delegate = self
+    task.resume()
+    
+    
+    // MARK: - CurlTaskDelegate
 
-            do {
-                let result = try await task?.resume()
-                print(String(data: result?.0 ?? .init(), encoding: .ascii) ?? "(nil)")
+    func task(_ task: CurlTask, willPerformHTTPRedirection response: HTTPURLResponse, newRequest request: URLRequest) -> Bool {
+        print("\(task) willPerformHTTPRedirection: \(response), newRequest: \(request)")
 
-                if let response = result?.1 as? HTTPURLResponse {
-                    print("Response2: \(response.url?.absoluteString ?? "(nil)") \(response.statusCode)\nheaders: \(response.allHeaderFields)")
-                }
-            }
-            catch {
-                print("Error: \(error)")
-            }
+        return true
+    }
 
-            observation2?.invalidate()
+    func task(_ task: CurlTask, isHTTPRedirection response: HTTPURLResponse, newRequest request: URLRequest) {
+        print("\(task) isHTTPRedirection: \(response), newRequest: \(request)")
+    }
+
+    func task(_ task: CurlTask, didReceive challenge: URLAuthenticationChallenge) -> Bool {
+        print("\(task) didReceive: \(challenge)")
+
+        return true
+    }
+
+    func task(_ task: CurlTask, didReceive response: URLResponse) -> Bool {
+        print("\(task) didReceive: \(response)")
+
+        return true
+    }
+
+    func task(_ task: CurlTask, didReceive data: Data) -> Bool {
+        print("\(task) didReceive: \(data)")
+
+        return true
+    }
+
+    func task(_ task: CurlTask, didCompleteWithError error: (any Error)?) {
+        print("\(task) didCompleteWithError: \(error?.localizedDescription ?? "(nil)")")
     }
 ```
 
