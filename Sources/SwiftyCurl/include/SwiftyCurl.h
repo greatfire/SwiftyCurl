@@ -34,6 +34,13 @@ typedef NS_ENUM(NSUInteger, SwiftyCurlAuthMethods) {
 @property dispatch_queue_t queue;
 
 /**
+ Delegate to set on created `SCTask` objects.
+
+ You can instead set this yourself per-task, too.
+ */
+@property (nullable, weak) NSObject<SCTaskDelegate> *delegate;
+
+/**
  Set the allowed protocols for curl to avoid accidental execution of user-controlled requests.
 
  Defaults to "HTTP,HTTPS".

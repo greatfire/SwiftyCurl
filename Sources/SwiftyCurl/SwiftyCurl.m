@@ -89,7 +89,10 @@
     conf.socksProxyResolves = self.socksProxyResolves;
     conf.verbose = self.verbose;
 
-    return [[SCTask alloc] initWith:conf];
+    SCTask *task = [[SCTask alloc] initWith:conf];
+    task.delegate = self.delegate;
+
+    return task;
 }
 
 - (void)dealloc

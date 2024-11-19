@@ -9,7 +9,7 @@
 import Cocoa
 import SwiftyCurl
 
-class ViewController: NSViewController {
+class ViewController: NSViewController, CurlTaskDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,8 +18,9 @@ class ViewController: NSViewController {
 
         let curl = SwiftyCurl()
         curl.followLocation = true
+        curl.delegate = self
         curl.queue = .global(qos: .background)
-        curl.verbose = true
+//        curl.verbose = true
 
         let progress = Progress()
         let observation1 = progress.observe(\.fractionCompleted) { progress, _ in
@@ -64,5 +65,39 @@ class ViewController: NSViewController {
 
             observation2?.invalidate()
         }
+    }
+
+    // MARK: - CurlTaskDelegate
+
+    func task(_ task: CurlTask, willPerformHTTPRedirection response: HTTPURLResponse, newRequest request: URLRequest) -> Bool {
+        print("\(task) willPerformHTTPRedirection: \(response), newRequest: \(request)")
+
+        return true
+    }
+
+    func task(_ task: CurlTask, isHTTPRedirection response: HTTPURLResponse, newRequest request: URLRequest) {
+        print("\(task) isHTTPRedirection: \(response), newRequest: \(request)")
+    }
+
+    func task(_ task: CurlTask, didReceive challenge: URLAuthenticationChallenge) -> Bool {
+        print("\(task) didReceive: \(challenge)")
+
+        return true
+    }
+
+    func task(_ task: CurlTask, didReceive response: URLResponse) -> Bool {
+        print("\(task) didReceive: \(response)")
+
+        return true
+    }
+
+    func task(_ task: CurlTask, didReceive data: Data) -> Bool {
+        print("\(task) didReceive: \(data)")
+
+        return true
+    }
+
+    func task(_ task: CurlTask, didCompleteWithError error: (any Error)?) {
+        print("\(task) didCompleteWithError: \(error?.localizedDescription ?? "(nil)")")
     }
 }
