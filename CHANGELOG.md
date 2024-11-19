@@ -1,5 +1,12 @@
 # SwiftyCurl Changelog
 
+## 0.4.0
+
+- Fixed SPM support.
+- Added an `SCTaskDelegate` as an alternative to the `CompletionHandler` 
+  with some features for redirect and auth handling.
+- Added `SwiftyCurl.libcurlVersion` which exposes libcurl details.
+
 ## 0.3.0
 
 - Added `User-Agent` header support.
