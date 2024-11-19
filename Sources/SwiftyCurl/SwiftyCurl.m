@@ -132,9 +132,6 @@ static WKWebView *webView;
         case Bearer:
             return CURLAUTH_BEARER;
 
-        case Negotiate:
-            return CURLAUTH_NEGOTIATE;
-
         case Ntlm:
             return CURLAUTH_NTLM;
 

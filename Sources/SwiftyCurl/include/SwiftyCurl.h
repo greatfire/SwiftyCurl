@@ -16,14 +16,56 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SwiftyCurl : NSObject
 
+/**
+ HTTP server authentication methods to try.
+
+ See https://curl.se/libcurl/c/CURLOPT_HTTPAUTH.html
+ */
 typedef NS_ENUM(NSUInteger, SwiftyCurlAuthMethods) {
+    /**
+     HTTP Basic authentication. This is the default choice, and the only method that is in
+     wide-spread use and supported virtually everywhere.
+     This sends the username and password over the network in plain text, easily captured by others.
+     */
     Basic,
+
+    /**
+     HTTP Digest authentication. Digest authentication is defined in [RFC 2617](https://www.ietf.org/rfc/rfc2617.txt)
+     and is a more secure way to do authentication over public networks than the regular old-fashioned Basic method.
+     */
     Digest,
+
+    /**
+     HTTP Digest authentication with an IE flavor. Digest authentication is defined in [RFC 2617](https://www.ietf.org/rfc/rfc2617.txt)
+     and is a more secure way to do authentication over public networks than the regular old-fashioned Basic method.
+
+     The IE flavor is simply that libcurl uses a special "quirk" that IE is known to have used before version 7 and that some servers require the client to use.
+     */
     DigestIe,
+
+    /**
+     HTTP Bearer token authentication, used primarily in OAuth 2.0 protocol.
+
+     You can set the Bearer token to use with  ``SwiftyCurl.bearerToken``.
+     */
     Bearer,
-    Negotiate,
+
+    /**
+     HTTP NTLM authentication. A proprietary protocol invented and used by Microsoft.
+     It uses a challenge-response and hash concept similar to Digest, to prevent the password from being eavesdropped.
+     */
     Ntlm,
+
+    /**
+     This is a convenience macro that sets all bits and thus makes libcurl pick any it finds suitable.
+     libcurl automatically selects the one it finds most secure.
+     */
     Any,
+
+    /**
+     This is a convenience macro that sets all bits except Basic and thus makes libcurl pick any it finds suitable.
+     libcurl automatically selects the one it finds most secure.
+     */
     AnySafe,
 };
 
