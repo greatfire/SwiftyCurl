@@ -71,6 +71,11 @@ typedef NS_ENUM(NSUInteger, SwiftyCurlAuthMethods) {
 
 
 /**
+ Returns a human-readable string describing the libcurl version, its built-in dependencies, its supported protocols and its supported features.
+ */
+@property (readonly, class) NSString *libcurlVersion;
+
+/**
  The dispatch queue to put curl requests on. Defaults to the global queue `QOS_CLASS_USER_INITIATED`.
  */
 @property dispatch_queue_t queue;

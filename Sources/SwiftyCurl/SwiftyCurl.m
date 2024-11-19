@@ -15,6 +15,32 @@
     NSUInteger ticket;
 }
 
++ (NSString *)libcurlVersion
+{
+    curl_version_info_data *info = curl_version_info(CURLVERSION_NOW);
+
+    NSMutableArray<NSString *> *protocols = [NSMutableArray new];
+    for (size_t i = 0; i < sizeof(info->protocols); i++)
+    {
+        [protocols addObject:[NSString stringWithCString:info->protocols[i] encoding:NSUTF8StringEncoding]];
+    }
+
+    NSMutableArray<NSString *> *features = [NSMutableArray new];
+    for (size_t i = 0; i < sizeof(info->feature_names); i++)
+    {
+        [features addObject:[NSString stringWithCString:info->feature_names[i] encoding:NSUTF8StringEncoding]];
+    }
+
+    return [NSString stringWithFormat:@"libcurl %s using %s and libz %s on %s (supported protocols: %@), (supported features: %@)",
+            info->version,
+            info->ssl_version,
+            info->libz_version,
+            info->host,
+            [protocols componentsJoinedByString:@", "],
+            [features componentsJoinedByString:@", "]
+    ];
+}
+
 - (instancetype)init
 {
     self = [super init];

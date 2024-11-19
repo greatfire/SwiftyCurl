@@ -14,6 +14,8 @@ class ViewController: NSViewController, CurlTaskDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        print(SwiftyCurl.libcurlVersion)
+
         let request = URLRequest(url: .init(string: "http://google.com")!)
 
         let curl = SwiftyCurl()
