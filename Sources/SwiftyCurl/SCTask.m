@@ -270,7 +270,7 @@ int progressCb(void *clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t u
         curl_easy_setopt(curl, CURLOPT_VERBOSE, conf.verbose);
 #endif
 
-        _progress = conf.progress != nil ? conf.progress : [NSProgress progressWithTotalUnitCount:0];
+        _progress = conf.progress ? conf.progress : [NSProgress progressWithTotalUnitCount:0];
         scProgress = [[SCProgress alloc] initWith:self.progress];
         curl_easy_setopt(curl, CURLOPT_XFERINFOFUNCTION, progressCb);
         curl_easy_setopt(curl, CURLOPT_XFERINFODATA, scProgress);
@@ -423,7 +423,7 @@ int progressCb(void *clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t u
 }
 
 
-// MARK: - Private Methods
+#pragma mark Private Methods
 
 - (void)cleanup
 {
@@ -481,7 +481,7 @@ int progressCb(void *clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t u
         return nil;
     }
 
-    NSRegularExpression *regex = [[NSRegularExpression alloc] initWithPattern:@"(HTTP/[\\d.]+).*(\\d{3})" options:NSRegularExpressionCaseInsensitive error:nil];
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(HTTP/[\\d.]+).*(\\d{3})" options:NSRegularExpressionCaseInsensitive error:nil];
     NSMutableDictionary<NSString *, NSString *> *headers = [[NSMutableDictionary alloc] init];
     NSInteger code = 400;
     NSString *version;
@@ -530,14 +530,14 @@ int progressCb(void *clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t u
     char *urlBytes = NULL;
     curl_easy_getinfo(curl, CURLINFO_EFFECTIVE_URL, &urlBytes);
 
-    NSData *urlData = [[NSData alloc] initWithBytes:urlBytes length:strlen(urlBytes)];
+    NSData *urlData = [NSData dataWithBytes:urlBytes length:strlen(urlBytes)];
     NSString *urlString = [[NSString alloc] initWithData:urlData encoding:NSUTF8StringEncoding];
 
     NSURL *url = self.originalRequest.URL;
 
     if (urlString.length > 0)
     {
-        url = [[NSURL alloc] initWithString:urlString];
+        url = [NSURL URLWithString:urlString];
     }
 
     return [[NSHTTPURLResponse alloc] initWithURL:url

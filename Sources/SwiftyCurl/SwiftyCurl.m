@@ -115,7 +115,7 @@ static WKWebView *webView;
 
 
 
-// MARK: - Private Methods
+#pragma mark Private Methods
 
 - (long)getAuth:(SwiftyCurlAuthMethods)method
 {

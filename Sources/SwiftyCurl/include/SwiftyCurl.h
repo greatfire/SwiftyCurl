@@ -149,7 +149,7 @@ typedef NS_ENUM(NSUInteger, SwiftyCurlAuthMethods) {
 @property (nullable) NSString *awsSigV4;
 
 /**
- `URLSession` compatible proxy dictionary.
+ ``URLSession``-compatible proxy dictionary.
 
  HTTP, HTTPS and SOCKS proxy configurations are supported:
 
@@ -176,7 +176,7 @@ typedef NS_ENUM(NSUInteger, SwiftyCurlAuthMethods) {
 
  For SOCKS proxies, curl supports 2 variants: One, where curl resolves hostnames, one where the SOCKS proxy resolves hostnames.
 
- @see [socksProxyResolves] to stear that behaviour.
+ @see [socksProxyResolves] to control that behaviour.
 
  See:
  - https://curl.se/libcurl/c/CURLOPT_PROXYTYPE.html
@@ -191,7 +191,7 @@ typedef NS_ENUM(NSUInteger, SwiftyCurlAuthMethods) {
 @property (nullable) NSDictionary *proxyDict;
 
 /**
- Set this to true, if you want to have curl let the SOCKS proxy resolve hostnames.
+ Set this to `true`, if you want to have curl let the SOCKS proxy resolve hostnames.
 
  This is useful, if you're working with a proxy, which doesn't have UDP support for regular DNS.
 
@@ -202,7 +202,7 @@ typedef NS_ENUM(NSUInteger, SwiftyCurlAuthMethods) {
 @property BOOL socksProxyResolves;
 
 /**
- Verbose mode. Only honored when project is compiled i DEBUG mode.
+ Verbose mode. Only honored when project is compiled in DEBUG mode.
 
  Defaults to `false`.
 
@@ -227,7 +227,7 @@ typedef NS_ENUM(NSUInteger, SwiftyCurlAuthMethods) {
 
  @param completionHandler Callback, when response is received:
      - `data`: Received response data. Might be `nil` if server returned no response body or an error happened.
-     - `response`: Actually a `NSHTTPURLResponse` object with information about returned HTTP status code, HTTP method used and response headers. Will be `nil` if an error happened.
+     - `response`: Actually a ``NSHTTPURLResponse`` object with information about returned HTTP status code, HTTP method used and response headers. Will be `nil` if an error happened.
      - `error`: Any error happening during the request. Will be `nil` if a response was received.
  */
 - (void)performWithURL:(nonnull NSURL *)url completionHandler:(nonnull CompletionHandler)completionHandler;
@@ -239,7 +239,7 @@ typedef NS_ENUM(NSUInteger, SwiftyCurlAuthMethods) {
 
  @param completionHandler Callback, when response is received:
      - `data`: Received response data. Might be `nil` if server returned no response body or an error happened.
-     - `response`: Actually a `NSHTTPURLResponse` object with information about returned HTTP status code, HTTP method used and response headers. Will be `nil` if an error happened.
+     - `response`: Actually a ``NSHTTPURLResponse`` object with information about returned HTTP status code, HTTP method used and response headers. Will be `nil` if an error happened.
      - `error`: Any error happening during the request. Will be `nil` if a response was received.
  */
 - (void)performWithRequest:(nonnull NSURLRequest *)request completionHandler:(nonnull CompletionHandler)completionHandler;
@@ -253,7 +253,7 @@ typedef NS_ENUM(NSUInteger, SwiftyCurlAuthMethods) {
 
  @param completionHandler Callback, when response is received:
      - `data`: Received response data. Might be `nil` if server returned no response body or an error happened.
-     - `response`: Actually a `NSHTTPURLResponse` object with information about returned HTTP status code, HTTP method used and response headers. Will be `nil` if an error happened.
+     - `response`: Actually a ``NSHTTPURLResponse`` object with information about returned HTTP status code, HTTP method used and response headers. Will be `nil` if an error happened.
      - `error`: Any error happening during the request. Will be `nil` if a response was received.
  */
 - (void)performWithURL:(nonnull NSURL *)url progress:(nullable NSProgress *)progress completionHandler:(nonnull CompletionHandler)completionHandler;
@@ -267,7 +267,7 @@ typedef NS_ENUM(NSUInteger, SwiftyCurlAuthMethods) {
 
  @param completionHandler Callback, when response is received:
      - `data`: Received response data. Might be `nil` if server returned no response body or an error happened.
-     - `response`: Actually a `NSHTTPURLResponse` object with information about returned HTTP status code, HTTP method used and response headers. Will be `nil` if an error happened.
+     - `response`: Actually a ``NSHTTPURLResponse`` object with information about returned HTTP status code, HTTP method used and response headers. Will be `nil` if an error happened.
      - `error`: Any error happening during the request. Will be `nil` if a response was received.
  */
 - (void)performWithRequest:(nonnull NSURLRequest *)request progress:(nullable NSProgress *)progress completionHandler:(nonnull CompletionHandler)completionHandler;
@@ -277,7 +277,7 @@ typedef NS_ENUM(NSUInteger, SwiftyCurlAuthMethods) {
 
  @param url The URL to send a GET request to.
 
- @returns A prepared `SCTask` object you will need to `resume` to actually perform the request.
+ @returns A prepared ``SCTask`` object you will need to ``resume`` to actually perform the request.
  */
 - (nullable SCTask *)taskWithURL:(nonnull NSURL *)url;
 
@@ -286,7 +286,7 @@ typedef NS_ENUM(NSUInteger, SwiftyCurlAuthMethods) {
 
  @param request The request to send. URL, method, headers, body and timeout properties will be honored.
 
- @returns A prepared `SCTask` object you will need to `resume` to actually perform the request.
+ @returns A prepared ``SCTask`` object you will need to ``resume`` to actually perform the request.
  */
 - (nullable SCTask *)taskWithRequest:(nonnull NSURLRequest *)request;
 
@@ -295,9 +295,9 @@ typedef NS_ENUM(NSUInteger, SwiftyCurlAuthMethods) {
 
  @param request The request to send. URL, method, headers, body and timeout properties will be honored.
 
- @param progress An optional `NSProgress` object where the progress will be reported on. OPTIONAL. Will be created if `nil` and made available on the `SCTask` object.
+ @param progress An optional ``NSProgress`` object where the progress will be reported on. OPTIONAL. Will be created if `nil` and made available on the ``SCTask`` object.
 
- @returns A prepared `SCTask` object you will need to `resume` to actually perform the request.
+ @returns A prepared ``SCTask`` object you will need to ``resume`` to actually perform the request.
  */
 - (nullable SCTask *)taskWithRequest:(nonnull NSURLRequest *)request progress:(nullable NSProgress *)progress;
 
