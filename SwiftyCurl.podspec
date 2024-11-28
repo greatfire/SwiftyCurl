@@ -19,7 +19,7 @@ SwiftyCurl is an easily usable Swift and Objective-C wrapper for libcurl.
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Benjamin Erhart' => 'berhart@netzarchitekten.com' }
   s.source           = { :git => 'https://github.com/greatfire/SwiftyCurl.git', :tag => s.version.to_s }
-  s.social_media_url = 'https://twitter.com/tladesignz'
+  s.social_media_url = 'https://chaos.social/@tla'
 
   s.ios.deployment_target = '12.0'
   s.macos.deployment_target = '12.0'
