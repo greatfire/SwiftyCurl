@@ -187,7 +187,7 @@ pod 'SwiftyCurl'
 ```Swift
     …
     dependencies: [
-        .package(url: "https://github.com/greatfire/SwiftyCurl", from: "0.3.0"),
+        .package(url: "https://github.com/greatfire/SwiftyCurl", from: "0.4.1"),
     ],
     …
 ```
