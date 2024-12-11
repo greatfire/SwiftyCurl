@@ -1,5 +1,9 @@
 # SwiftyCurl Changelog
 
+## 0.4.1
+
+- Updated libcurl to version 8.11.1.
+
 ## 0.4.0
 
 - Fixed SPM support.
