@@ -25,6 +25,10 @@ NS_SWIFT_NAME(CurlConfig)
 @property (nullable) NSString *userAgent;
 @property (nullable) NSURL *cookieJar;
 @property (nullable) NSArray<SCResolveEntry *> *resolve;
+@property BOOL tlsIgnoreInvalidCertChain;
+@property BOOL tlsIgnoreInvalidHost;
+@property (nullable) NSURL *tlsCertsFolder;
+@property (nullable) NSURL *tlsCertsCombinedPem;
 @property long authMethod;
 @property (nullable) NSString *username;
 @property (nullable) NSString *password;

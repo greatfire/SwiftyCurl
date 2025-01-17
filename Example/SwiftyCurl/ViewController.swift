@@ -16,8 +16,6 @@ class ViewController: UIViewController {
 
         print(SwiftyCurl.libcurlVersion)
 
-        let request = URLRequest(url: .init(string: "http://google.com")!)
-
         let curl = SwiftyCurl()
         curl.followLocation = true
         curl.queue = .global(qos: .background)
@@ -28,7 +26,7 @@ class ViewController: UIViewController {
             print("Progress1: \(progress.completedUnitCount) of \(progress.totalUnitCount) = \(progress.fractionCompleted)")
         }
 
-        curl.perform(with: request, progress: progress) { data, response, error in
+        curl.perform(with: .init(url: .init(string: "http://google.com")!), progress: progress) { data, response, error in
 //            print(String(data: data ?? .init(), encoding: .ascii) ?? "(nil)")
 
             if let response = response as? HTTPURLResponse {
@@ -42,7 +40,7 @@ class ViewController: UIViewController {
             observation1.invalidate()
         }
 
-        let task = curl.task(with: request)
+        let task = curl.task(with: .init(url: .init(string: "https://google.com")!))
         let observation2 = task?.progress.observe(\.fractionCompleted) { progress, _ in
             print("Progress2: \(progress.completedUnitCount) of \(progress.totalUnitCount) = \(progress.fractionCompleted)")
         }

@@ -29,6 +29,10 @@ SwiftyCurl is an easily usable Swift and Objective-C wrapper for libcurl.
 
   s.vendored_frameworks = 'curl.xcframework'
 
+  s.resource_bundles = {
+      'certs' => ['curl.xcframework/ios-arm64/curl.framework/Resources/cacert.pem']
+  }
+
   s.libraries = 'z'
   s.macos.libraries = 'ldap'
   s.macos.frameworks = 'SystemConfiguration'

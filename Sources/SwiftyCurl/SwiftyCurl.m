@@ -50,6 +50,10 @@
         self.queue = dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0);
         self.allowedProtocols = @"HTTP,HTTPS";
         self.authMethod = Any;
+        self.tlsCertsCombinedPem = [[NSBundle bundleWithURL:
+                                     [[NSBundle bundleForClass:self.class]
+                                      URLForResource:@"certs" withExtension:@"bundle"]]
+                                    URLForResource:@"cacert" withExtension:@"pem"];
     }
 
     return self;
@@ -106,6 +110,10 @@
     conf.userAgent = self.userAgent;
     conf.cookieJar = self.cookieJar;
     conf.resolve = self.resolve;
+    conf.tlsIgnoreInvalidCertChain = self.tlsIgnoreInvalidCertChain;
+    conf.tlsIgnoreInvalidHost = self.tlsIgnoreInvalidHost;
+    conf.tlsCertsFolder = self.tlsCertsFolder;
+    conf.tlsCertsCombinedPem = self.tlsCertsCombinedPem;
     conf.authMethod = [self getAuth:self.authMethod];
     conf.username = self.username;
     conf.password = self.password;

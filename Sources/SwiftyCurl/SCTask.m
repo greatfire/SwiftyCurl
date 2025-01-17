@@ -223,6 +223,11 @@ int progressCb(void *clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t u
             curl_easy_setopt(curl, CURLOPT_RESOLVE, hosts);
         }
 
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, !conf.tlsIgnoreInvalidCertChain);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, conf.tlsIgnoreInvalidHost ? 0 : 2);
+        [self set:CURLOPT_CAPATH toString:conf.tlsCertsFolder.path];
+        [self set:CURLOPT_CAINFO toString:conf.tlsCertsCombinedPem.path];
+
         curl_easy_setopt(curl, CURLOPT_HTTPAUTH, conf.authMethod);
         [self set:CURLOPT_USERNAME toString:conf.username];
         [self set:CURLOPT_PASSWORD toString:conf.password];

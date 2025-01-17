@@ -151,6 +151,72 @@ typedef NS_ENUM(NSUInteger, SwiftyCurlAuthMethods) {
 @property (nullable) NSArray<SCResolveEntry *> *resolve;
 
 /**
+ Do not verify the peers' TLS certificates.
+
+ This option determines whether curl verifies the authenticity of the peer's certificate.
+
+ When negotiating a TLS or SSL connection, the server sends a certificate indicating its identity.
+ curl verifies whether the certificate is authentic, i.e. that you can trust that the server is who the certificate says it is.
+ This trust is based on a chain of digital signatures, rooted in certification authority (CA) certificates you supply.
+
+ SwiftyCurl uses a default bundle of CA certificates and you can specify alternate certificates with `tlsCertsFolder`
+ and `tlsCertsCombinedPem`.
+
+ When this option is enabled, the CA certificates are not loaded and the peer certificate verification is simply skipped.
+
+ **WARNING**: disabling verification of the certificate allows bad guys to man-in-the-middle the communication without you knowing it.
+ Disabling verification makes the communication insecure. Just having encryption on a transfer is not enough as you cannot be sure
+ that you are communicating with the correct end-point.
+ */
+@property BOOL tlsIgnoreInvalidCertChain;
+
+/**
+ Do not verify the host in the servers' TLS certificates
+
+ When negotiating a TLS connection, the server sends a certificate indicating its identity.
+
+ When disabled (default), the server certificate must indicate that it was made for the hostname or address curl connects to, or the connection fails.
+ Simply put, it means it has to have the same name in the certificate as is used in the URL you operate against..
+
+ curl considers the server the intended one when the Common Name field or a Subject Alternate Name field in the certificate matches the hostname
+ in the URL to which you told curl to connect.
+
+ When this is enabled, the connection succeeds regardless of the names in the certificate. Use that ability with caution.
+
+ This option controls checking the server's certificate's claimed identity. The separate `tlsIgnoreInvalidCertChain` option enables/disables
+ verification that the certificate is signed by a trusted Certificate Authority.
+
+ **WARNING**: disabling verification of the certificate allows bad guys to man-in-the-middle the communication without you knowing it.
+ Disabling verification makes the communication insecure. Just having encryption on a transfer is not enough as you cannot be sure
+ that you are communicating with the correct end-point.
+
+ When libcurl uses secure protocols it trusts responses and allows for example HSTS and Alt-Svc information to be stored and used subsequently.
+ Disabling certificate verification can make libcurl trust and use such information from malicious servers.
+
+ A certificate can have the name as a wildcard. The only asterisk (*) must then be the left-most character and it must be followed by a period.
+ The wildcard must further contain more than one period as it cannot be set for a top-level domain.
+
+ A certificate can be set for a numerical IP address (IPv4 or IPv6), but then it should be a Subject Alternate Name kind and its type should correctly identify the field as an IP address.
+ */
+@property BOOL tlsIgnoreInvalidHost;
+
+/**
+ Directory holding CA certificates.
+
+ The certificate directory must be prepared using the OpenSSL c_rehash utility.
+ */
+@property (nullable) NSURL *tlsCertsFolder;
+
+/**
+ Path to Certificate Authority (CA) bundle as a PEM formatted file.
+
+ This option is by default set to the provided CA cert list from Mozilla.
+
+ See https://curl.se/docs/caextract.html
+ */
+@property (nullable) NSURL *tlsCertsCombinedPem;
+
+/**
  HTTP server authentication methods to try.
 
  Defaults to `nil`.
