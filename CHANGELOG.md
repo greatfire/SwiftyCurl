@@ -1,5 +1,9 @@
 # SwiftyCurl Changelog
 
+## 0.4.2
+
+- Updated libcurl to version 8.13.0
+
 ## 0.4.1
 
 - Updated libcurl to version 8.11.1.

@@ -155,6 +155,10 @@ The notes about this in `URLRequest` explicitly **don't** apply here: E.g. you *
 
 - Lots of libcurl features aren't properly exposed. 
 
+- When used with SPM, SwiftyCurl cannot find the `cacert.pem` file automatically, due to limitations of SPM. 
+  You will need to extract that from the binary dependency `curl.xcframework` or 
+  [download it here](https://curl.se/docs/caextract.html), add it to your app bundle manually and set 
+  `SwiftyCurl.tlsCertsCombinedPem` to that file.
 
 If any of these bug you, I am awaiting your merge requests!
 
@@ -187,7 +191,7 @@ pod 'SwiftyCurl'
 ```Swift
     …
     dependencies: [
-        .package(url: "https://github.com/greatfire/SwiftyCurl", from: "0.4.1"),
+        .package(url: "https://github.com/greatfire/SwiftyCurl", from: "0.4.2"),
     ],
     …
 ```
