@@ -1,5 +1,5 @@
 PODS:
-  - SwiftyCurl (0.4.2)
+  - SwiftyCurl (0.4.3)
 
 DEPENDENCIES:
   - SwiftyCurl (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  SwiftyCurl: 6f6e8ef159f2d339fb4f545aac6ceaa0dd31e522
+  SwiftyCurl: 3375b527afdfcd188578b52479ff5c11f1644b32
 
 PODFILE CHECKSUM: 9cdeddd769cda2311669437b92ddad784b971f50
 

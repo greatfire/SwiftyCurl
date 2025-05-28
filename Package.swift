@@ -15,9 +15,9 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "CurlApple",
-            url: "https://github.com/greatfire/curl-apple/releases/download/8.13.0/curl.xcframework.zip",
+            url: "https://github.com/greatfire/curl-apple/releases/download/8.14.0/curl.xcframework.zip",
             // swift package compute-checksum curl.xcframework.zip
-            checksum: "63c9923aae4a5dd6aaa5415bb78434b040a65634b3509f80c85fc0f16eb7f808"),
+            checksum: "5086a67b158f00194752ce37792126fa0ecfff451956c6974931fa383433b31c"),
         .target(
             name: "SwiftyCurl",
             dependencies: ["CurlApple"],
