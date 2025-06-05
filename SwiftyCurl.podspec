@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SwiftyCurl'
-  s.version          = '0.4.3'
+  s.version          = '0.4.4'
   s.summary          = 'A Swift and Objective-C wrapper for libcurl.'
 
   s.description      = <<-DESC
