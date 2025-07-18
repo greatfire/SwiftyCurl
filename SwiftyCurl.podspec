@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SwiftyCurl'
-  s.version          = '0.4.4'
+  s.version          = '0.4.5'
   s.summary          = 'A Swift and Objective-C wrapper for libcurl.'
 
   s.description      = <<-DESC
@@ -37,6 +37,6 @@ SwiftyCurl is an easily usable Swift and Objective-C wrapper for libcurl.
   s.macos.libraries = 'ldap'
   s.macos.frameworks = 'SystemConfiguration'
 
-  s.prepare_command = 'Sources/download-curl.sh'
+  s.prepare_command = 'Sources/download-curl.sh 8.15.0 2353b5ae767c896fdef1c3e0bf23f3df429fc266809af7f443ae5a1003cea42a'
   s.preserve_path = 'Sources/download-curl.sh'
 end
